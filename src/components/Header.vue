@@ -3,22 +3,13 @@
     <img alt="OpenSwap" src="../assets/oswap_logo.png" class="h-12">
     <!-- Navigation Start -->
     <div class="flex items-center space-x-2 text-gray-500">
-
-      <router-link to="/" class="flex items-center space-x-2 p-2 px-3 rounded-lg group focus:outline-none focus:ring-1 focus:ring-black focus:ring-opacity-20">
-        <i class="las la-random text-xl group-hover:text-oswapGreen dark:text-oswapGreen"></i>
-        <p class="text-sm group-hover:text-oswapBlue-light dark:text-oswapGreen">Exchange</p>
-      </router-link>
-
-      <router-link to="/liquidity" class="flex items-center space-x-2 p-2 px-3 rounded-lg group focus:outline-none focus:ring-1 focus:ring-black focus:ring-opacity-20">
-        <i class="las la-tint text-xl group-hover:text-oswapGreen dark:text-oswapGreen"></i>
-        <p class="text-sm group-hover:text-oswapBlue-light dark:text-oswapGreen">Liquidity</p>
-      </router-link>
-
-      <router-link to="/farm" class="flex items-center space-x-2 p-2 px-3 rounded-lg group focus:outline-none focus:ring-1 focus:ring-black focus:ring-opacity-20">
-        <i class="las la-tractor text-xl group-hover:text-oswapGreen dark:text-oswapGreen"></i>
-        <p class="text-sm group-hover:text-oswapBlue-light dark:text-oswapGreen">Farm</p>
-      </router-link>
-
+      
+      <template  v-for="(route, index) in routes" :key="index">
+        <router-link  :to="route.url" class="flex items-center space-x-2 p-2 px-3 rounded-lg group focus:outline-none focus:ring-1 focus:ring-black focus:ring-opacity-20">
+          <i :class="'las text-xl dark:group-hover:text-oswapBlue-light group-hover:text-oswapGreen dark:text-oswapGreen '+route.icon"></i>
+          <p class="text-sm group-hover:text-oswapBlue-light dark:text-oswapGreen">{{route.description}}</p>
+        </router-link>
+      </template >
       <!-- Menu 'More' (dropdown) -->
       <MoreButton />
 
@@ -51,6 +42,23 @@
     },
     data() {
       return {        
+        routes:[
+          {
+            description: 'Exchange',
+            url: '/',
+            icon: 'la-random'
+          },
+          {
+            description: 'Liquidity',
+            url: '/liquidity',
+            icon: 'la-tint'
+          },
+                    {
+            description: 'Farm',
+            url: '/farm',
+            icon: 'la-tractor'
+          }
+        ]
       }
     },
 
