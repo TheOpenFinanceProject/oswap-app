@@ -39,6 +39,8 @@ module.exports = {
     screens: {
       ss: '200px',
       xs: '540px',
+      mobile: { min: "225px", max: "768px" },
+      medium: { min: "768px", max: "1024px" },
       sm: '640px',
       md: '768px',
       lg: '1024px',
