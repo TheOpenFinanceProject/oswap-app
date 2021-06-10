@@ -1,0 +1,19 @@
+// Swap Transitions
+.swap-enter-active {
+  @apply transform transition duration-200 ease-out
+}
+.swap-enter-from {
+  @apply translate-x-4 opacity-0
+}
+.swap-enter-to {
+  @apply translate-x-0 opacity-100
+}
+.swap-leave-active {
+  @apply transform transition duration-150 ease-out
+}
+.swap-leave-from {
+  @apply translate-x-0 opacity-100
+}
+.swap-leave-to {
+  @apply -translate-x-4 opacity-0
+}
