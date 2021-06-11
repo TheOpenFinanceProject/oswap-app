@@ -15,7 +15,7 @@
 
 <script>
   export default {
-    name: 'Toaster',
+    name: 'ToastMe',
     props: {
       toast: Object
     }

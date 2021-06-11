@@ -1,7 +1,6 @@
 import { useToast } from 'vue-toastification';
 import { optToast } from './toaster_options';
-import Toaster from './Toaster'
-
+import { ToastMe } from './ToastMe';
 // How to use - super easy!
 // import into your component, ex.: import { toastMe } from '@/components/toaster/toaster.js'
 // now, call: toastMe() with the following options:
@@ -24,26 +23,26 @@ import Toaster from './Toaster'
 function toastMe(type, props) {
 
   let content = {
-    component: Toaster,
+    component: ToastMe,
     props: { toast: props }
-  }
+  };
 
   switch(type) {
     case 'success':
-      useToast().success(content, optToast(type))
-      break
+      useToast().success(content, optToast(type));
+      break;
     case 'info':
-      useToast().info(content, optToast(type))
-      break
+      useToast().info(content, optToast(type));
+      break;
     case 'warning':
-      useToast().warning(content, optToast(type))
-      break
+      useToast().warning(content, optToast(type));
+      break;
     case 'error':
-      useToast().error(content, optToast(type))
-      break
+      useToast().error(content, optToast(type));
+      break;
     default:
-      useToast()(content, optToast(type))
+      useToast()(content, optToast(type));
   }
 }
 
-export { toastMe }
+export { toastMe };

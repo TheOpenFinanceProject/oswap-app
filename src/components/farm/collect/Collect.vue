@@ -22,21 +22,22 @@
 
 <script>
   import openswap from "../../../shared/openswap.js";
-  import { toastMe } from '@/components/toaster/toaster.js'
+  import { toastMe } from '@/components/toaster/toaster.js';
+  import { mapState } from 'vuex';
 
   export default {
     name: 'Collect',
     components: {
     },
     mixins: [openswap],
-    mounted: async function (){
-      await this.getAllRewards();
-      await setInterval(
-        async function() {
-          await this.getAllRewards();
-        }.bind(this),
-        10000
-      );
+    computed: mapState('wallet', ['address']),
+    watch: {
+      address(newValue, oldValue) {
+        if(oldValue != newValue){
+          this.getAllRewards();
+          this.reload();
+        }
+      }
     },
     data() {
       return {
@@ -44,6 +45,14 @@
       }
     },
     methods: {
+      reload: async function() {
+        await setInterval(
+          async function() {
+            this.getAllRewards();
+          }.bind(this),
+          10000
+        )
+      },
       collectAllButton: async function(){
         const tx = await this.collectAll()
         let explorer = 'https://explorer.harmony.one/#/tx/'

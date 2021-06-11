@@ -14,11 +14,12 @@
 				viewBox="0 0 24 24" stroke="currentColor"/>
 			<div class="flex flex-col ml-3">
 				<div class="font-medium leading-none dark:text-oswapGreen">{{pool.pair}} {{pool.rewards}}</div>
-				<p class="text-sm text-gray-600 leading-none mt-1 pt-3 dark:text-oswapGreen">{{unclaimedTotal}} 
-				</p>
+				<PairData :pool-one-name="pool.name[0]" :pool-two-name="pool.name[1]" :pool-address="pool.pairaddress"  />
 			</div>
+      <div class="flex flex-col ml-3">
+      <BurnFees /><FarmCollect/><Unstake/><Stake/><FarmRefresh />
+      </div>
 		</div>
-		<!-- <button mat-icon-button="" class="flex-no-shrink bg-oswapGreen dark:bg-oswapDark-gray px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-oswapGreen dark:text-oswapGreen text-white rounded-full" @click="this.collectAll()">Collect</button> -->
 	</div> 
 </div>
 
@@ -26,6 +27,12 @@
 
 <script>
   import openswap from "../../shared/openswap.js";
+  import PairData from "./farm_pair_items/PairData.vue";
+  import BurnFees from "./farm_pair_items/BurnFees.vue";
+  import FarmCollect from "./farm_pair_items/FarmCollect.vue";
+  import FarmRefresh from "./farm_pair_items/FarmRefresh.vue";
+  import Stake from "./farm_pair_items/Stake.vue";
+  import Unstake from "./farm_pair_items/Unstake.vue";
 
   export default {
     name: 'FarmPair',
@@ -33,18 +40,15 @@
       pool: Object
     },
     components: {
+      PairData,
+      BurnFees,
+      FarmCollect,
+      FarmRefresh,
+      Stake,
+      Unstake
     },
     mixins: [openswap],
     mounted: async function (){
-      //this.token0 = this.pool;
-      //this.token1 = this.pool.name;
-    //   await this.getAllRewards();
-    //   await setInterval(
-    //     async function() {
-    //       await this.getAllRewards();
-    //     }.bind(this),
-    //     10000
-    //   );
     },
     data() {
       return {

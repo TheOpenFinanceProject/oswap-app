@@ -1,4 +1,5 @@
 import MasterChef from "openswap-core/build/contracts/MasterChef.json";
+import IERC20 from "openswap-core/build/contracts/IERC20.json";
 import { ethers } from "ethers";
 import { mapGetters } from 'vuex';
 const { Fetcher, ChainId, Trade, TokenAmount, TradeType } = require("openswap-sdk");
@@ -6,9 +7,6 @@ const { Pools } = require("../store/modules/farm/pools.js");
 
 export default {
   created: function () {},
-  computed: {
-
-  },
   methods: {
     ...mapGetters('wallet', ['getUserSignedIn', 'getUserSignedOut', 'getUserAddress', 'getWallet']),
     ...mapGetters('addressConstants', ['oSWAPMAKER', 'oSWAPCHEF', 'WONE']),
@@ -57,15 +55,15 @@ export default {
         const balance = await provider.getBalance(userAddress);
 
         let unformatedbalance = ethers.utils.formatUnits(balance.toString(), token.decimals).toString();
-        let formatedbalance = (unformatedbalance / 1).toFixed(5)
+        let formatedbalance = (unformatedbalance / 1).toFixed(5);
 
         return formatedbalance;
       } else {
-        const contract = new ethers.Contract(token.oneZeroxAddress, abi, provider)
+        const contract = new ethers.Contract(token.oneZeroxAddress, abi, provider);
         const balance = await contract
-            .balanceOf(userAddress)
+            .balanceOf(userAddress);
         let unformatedbalance = ethers.utils.formatUnits(balance.toString(), token.decimals).toString();
-        let formatedbalance = (unformatedbalance / 1).toFixed(5)
+        let formatedbalance = (unformatedbalance / 1).toFixed(5);
 
         return formatedbalance;
       }
@@ -75,13 +73,13 @@ export default {
     getAllRewards: async function () {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const address = this.getUserAddress();
-      if (address != "0x0000000000000000000000000000000000000003") {
+      if (address && address != "0x0000000000000000000000000000000000000003") {
         var i = 0, n;
         var totalUnclaimedRewards = ethers.BigNumber.from("0");
 
         const abi = MasterChef.abi;
         const masterChef = this.oSWAPCHEF();
-        const contract = new ethers.Contract(masterChef, abi, provider)
+        const contract = new ethers.Contract(masterChef, abi, provider);
 
         for (n in Pools) {
 
@@ -121,7 +119,7 @@ export default {
         console.log(error);
         this.error = 1;
         this.errormessage = "Error getting reward amount.";
-      });;
+      });
       const pendingsushi = ethers.BigNumber.from(pending);
       totalUnclaimedRewards = totalUnclaimedRewards.add(pendingsushi);
     },
@@ -150,7 +148,7 @@ export default {
                 "stateMutability": "nonpayable",
                 "type": "function"
               }
-            ]
+            ];
 
 
 
@@ -163,6 +161,21 @@ export default {
             
             this.getAllRewards();
             return tx;
+    },
+    getLPBalance: async function(tokenAddress){
+      const abi = IERC20.abi;
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const address = this.getUserAddress();
+      const contract = new ethers.Contract(tokenAddress, abi, provider);
+
+      const balance = await contract.balanceOf(address).catch(error => {
+        console.log(error);
+        this.error = 1;
+        this.errormessage = "Error getting LP Balance.";
+      });
+      
+      console.log(ethers.BigNumber.from(balance));
+
     },
     //----------------------------------------SDK------------------------------------------
     getPair: async function(token0, token1){
@@ -226,7 +239,7 @@ export default {
                 )
       ]);
 
-      const pairTHATEXISTS = await Fetcher.fetchPairData(TokenZ, TokenY)
+      const pairTHATEXISTS = await Fetcher.fetchPairData(TokenZ, TokenY);
 
       const [
              pair01,
@@ -238,43 +251,43 @@ export default {
              pairef
             ] = await Promise.all([
               Fetcher.fetchPairData(Token0, Token1).catch(() => {
-                      return pairTHATEXISTS
+                      return pairTHATEXISTS;
               }), 
               Fetcher.fetchPairData(Token0, TokenX).catch(() => {
-                      return pairTHATEXISTS
+                      return pairTHATEXISTS;
               }),
               Fetcher.fetchPairData(TokenX, Token1).catch(() => {
-                      return pairTHATEXISTS
+                      return pairTHATEXISTS;
               }),
               Fetcher.fetchPairData(Token0, TokenY).catch(() => {
-                      return pairTHATEXISTS
+                      return pairTHATEXISTS;
               }),
               Fetcher.fetchPairData(TokenY, Token1).catch(() => {
-                      return pairTHATEXISTS
+                      return pairTHATEXISTS;
               }),
               Fetcher.fetchPairData(Token0, TokenZ).catch(() => {
-                      return pairTHATEXISTS
+                      return pairTHATEXISTS;
               }),
               Fetcher.fetchPairData(TokenZ, Token1).catch(() => {
-                      return pairTHATEXISTS
+                      return pairTHATEXISTS;
               })
             ]);
 
-      const bestRoute = await Trade.bestTradeExactIn([paira,pairab,pairc,paircd,paire,pairef,pair01, pairTHATEXISTS],new TokenAmount(Token0, parsedAmount), Token1)
+      const bestRoute = await Trade.bestTradeExactIn([paira,pairab,pairc,paircd,paire,pairef,pair01, pairTHATEXISTS],new TokenAmount(Token0, parsedAmount), Token1);
 
    
-      console.log(bestRoute)
+      console.log(bestRoute);
       var i = 0;
       var path = [];
       while(bestRoute[0].route.path.length > i){
-        console.log(i)
-        path.push(bestRoute[0].route.path[i].address)
-        i++
+        console.log(i);
+        path.push(bestRoute[0].route.path[i].address);
+        i++;
       }
-      console.log(path)
+      console.log(path);
       //this.$emit("Path", path);
-      console.log(bestRoute[0])
-      return bestRoute[0]
+      console.log(bestRoute[0]);
+      return bestRoute[0];
       
 
 
@@ -293,10 +306,10 @@ export default {
     },
     //----------------------------------------Utils------------------------------------------
     getUnits: function(amount, token){
-      console.log(amount)
+      console.log(amount);
       let parsedunits = ethers.utils.parseUnits(amount, token.decimals);
-      console.log(parsedunits)
+      console.log(parsedunits);
       return parsedunits;
-    }
+    },
   }
 };
