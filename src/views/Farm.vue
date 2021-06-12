@@ -3,7 +3,7 @@
     <div class="flex justify-center p-4">
       <Collect></Collect>
     </div>
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-3 medium:grid-cols-2 mobile:grid-cols-1 gap-4">
       <div v-for="pool in Pools" :key="pool">
         <FarmPair :pool="pool" />
       </div>
