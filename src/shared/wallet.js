@@ -99,15 +99,6 @@ export default {
             const signer = await provider.getSigner();
             const { chainId } = await provider.getNetwork()
             this.setChainID(chainId);
-            if (chainId != 1666600000 && chainId != 1666700000 && chainId != 1337) {
-              toastMe('warning', {
-                title: 'Wrong Network',
-                msg: `Please Use Harmony Network`,
-                link: false,
-              })
-              await this.disconnectWallet();
-              return false
-            }
             
               const accounts = await signer.getAddress();
               this.setWalletType('metamask');

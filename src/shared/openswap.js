@@ -2118,8 +2118,7 @@ export default {
       const contract = new ethers.Contract(oSWAPToken, abi, provider);
 
       //Get Burned Balance
-      let burnBalance = await contract
-        .balanceOf(burnAddress);
+      let burnBalance = await contract.balanceOf(burnAddress);
       let burnBalanceUnformated = ethers.utils.formatUnits(burnBalance.toString()).toString();
       let burnBalanceFormated = (burnBalanceUnformated / 1).toFixed(2);
 

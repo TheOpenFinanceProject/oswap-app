@@ -92,8 +92,15 @@
       }
     },
     mounted: async function() {
-       
+      let timeout
+      if(this.getUserSignedIn()){
+        timeout = 1
+      } else {
+        timeout = 1500
+      }
+      await setTimeout(async function (){
       this.userAddress = this.getUserAddress();
+       }.bind(this), timeout);
       if (this.getToken()['token1'] != undefined) {
         this.token = this.getToken()['token1']
         console.log(this.token)
@@ -103,13 +110,13 @@
         if(this.getWalletType() == 'metamask'){
             window.ethereum.on('chainChanged',async function(){
             await this.checkChainId(network)
-          });
+          }.bind(this));
         }
       }
     },
     methods: {
       ...mapGetters('migrate', ['getToken', 'getToNetwork']),
-      ...mapGetters('wallet', ['getUserAddress', 'getWalletType']),
+      ...mapGetters('wallet', ['getUserAddress', 'getWalletType', 'getUserSignedIn']),
       ...mapActions('migrate', ['resetTokens']),
 
       selectToken(token) {
@@ -174,7 +181,7 @@
         var tokenType
         var erc20;
         //gets bech32 user address
-        if (this.useAddress === DEFAULT_ADDRESS) {
+        if (this.userAddress === DEFAULT_ADDRESS) {
           this.warnings['Network'] = 'Please make sure your wallet is connected before bridging.';
           return 0;
         }
