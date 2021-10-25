@@ -16,10 +16,10 @@
   export default {
     name: 'Switch',
     computed: {
-      ...mapGetters('migrate', ['getFromNetwork', 'getToNetwork'])
+      ...mapGetters('bridge', ['getFromNetwork', 'getToNetwork'])
     },
     methods: {
-      ...mapActions('migrate', ['switchNetwork']),
+      ...mapActions('bridge', ['switchNetwork']),
       updateBalances(){
         this.switchNetwork()
         this.$emit('updateBalances')

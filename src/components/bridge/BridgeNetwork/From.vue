@@ -34,7 +34,7 @@
       }
     },
     computed: {
-      ...mapGetters('migrate', [ 'getFromNetwork', 'getToNetwork']),
+      ...mapGetters('bridge', [ 'getFromNetwork', 'getToNetwork']),
     },
     mounted: function(){
         this.selectNetworkAuto()
@@ -47,8 +47,8 @@
         
     },
     methods: {
-      ...mapActions('migrate', ['setFromNetwork', 'setToNetwork', 'resetNetworks','switchNetwork']),
-      ...mapGetters('migrate', ['getNetworks', 'getToken']),
+      ...mapActions('bridge', ['setFromNetwork', 'setToNetwork', 'resetNetworks','switchNetwork']),
+      ...mapGetters('bridge', ['getNetworks', 'getToken']),
       ...mapGetters('wallet', ['getChainID']),
       getTokenOrigin(token){
         if(token.bscAddress != undefined){
