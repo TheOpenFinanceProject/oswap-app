@@ -100,7 +100,7 @@ const routes = [
   },
   {
     path: '/Bridge',
-    name: 'Bridge',
+    name: 'BridgePage',
     meta: {
       title: 'OpenSwap Bridge - Horizon ERC20 / BEP20 / HRC20 Bridge',
       metaTags: [
@@ -126,6 +126,11 @@ const routes = [
         },
       ]
     },
+    component: () => import('../views/Bridge.vue')
+  },
+  {
+    path: '/migrate',
+    name: 'MigratePage',
     component: () => import('../views/Migrate.vue')
   },
   {
