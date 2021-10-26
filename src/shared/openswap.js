@@ -47,8 +47,8 @@ export default {
         name: ""
       },
       1666600000: {
-        rpcURL: 'https://api.harmony.one',
-        provider: new ethers.providers.JsonRpcProvider('https://api.harmony.one', {chainId: 1666600000, name: "Harmony Mainnet S0"}),
+        rpcURL: 'https://harmony-0-rpc.gateway.pokt.network',
+        provider: new ethers.providers.JsonRpcProvider('https://harmony-0-rpc.gateway.pokt.network', {chainId: 1666600000, name: "Harmony Mainnet S0"}),
         name: "mainnet harmony"
       },
       1666700000: {

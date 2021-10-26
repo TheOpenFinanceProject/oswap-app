@@ -60,6 +60,9 @@
       token: Object
     },
     mounted: async function() {
+      await setTimeout(function() {
+        return
+      }, 2500);
       if (this.token.oneZeroxAddress == this.WONE(this.getChainID())) {
         this.setBtnState({approve: 'approved'});
         this.setBtnState({remove: 'remove'});

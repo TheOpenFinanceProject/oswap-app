@@ -83,7 +83,7 @@ export default {
 	  harmonyRPC: {
       1:"",
       56:"",
-      1666600000: "https://api.harmony.one",
+      1666600000: "https://harmony-0-rpc.gateway.pokt.network",
       1666700000: "https://api.s0.b.hmny.io",
       1337:"http://localhost:7545"
     },

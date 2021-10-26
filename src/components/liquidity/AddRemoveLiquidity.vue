@@ -34,7 +34,7 @@
       <div class="flex pt-4">
         <div class="flex w-full h-10 items-center">
           <LiquidityBackButton />
-            <div class="flex flex-1 h-full space-x-2 justify-end">
+            <div v-if="loaded" class="flex flex-1 h-full space-x-2 justify-end">
               <div v-if="addLiquidity" class="flex items-center w-28 h-full relative">
                 <LiquidityApproveButton v-if="!token0Approved" :amount="getToken0Amount()" :token="getToken()['token1']" @set0approved="set0approved" />
                 <LiquidityApproveButton v-if="token0Approved" :amount="getToken1Amount()" :token="getToken()['token2']" @set0approved="set0approved" :token0Approved="token0Approved" />
@@ -90,6 +90,7 @@
     data() {
       return {
         amount: '1',
+        loaded: false,
         token0Approved: false,
         token1Approved: false,
         slippageRate: '0.5',
@@ -119,7 +120,9 @@
         this.pairAddress = this.pair["liquidityToken"].address;
         this.pairToken = await this.getPairAsToken(this.getToken()['token1'],this.getToken()['token2'])
         await this.initMulticall()
+
       }
+      this.loaded = true;
       
       
       

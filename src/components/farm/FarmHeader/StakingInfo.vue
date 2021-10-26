@@ -74,7 +74,7 @@
           body: JSON.stringify({
             "jsonrpc": "2.0",
             "id": 1,
-            "method": "hmyv2_getValidatorInformation",
+            "method": "hmy_getValidatorInformation",
             "params": [
                 addr   
             ]
@@ -87,21 +87,21 @@
       // 100% node
       // "one1j35d0vd4uzwffeawjjfukn8t9wjt8csungj0z0"
 
-      const response100 = await fetch("https://rpc.s0.t.hmny.io", requestOptions("one1j35d0vd4uzwffeawjjfukn8t9wjt8csungj0z0"));
+      const response100 = await fetch("https://harmony-0-rpc.gateway.pokt.network", requestOptions("one1j35d0vd4uzwffeawjjfukn8t9wjt8csungj0z0"));
       const data100 = await response100.json();
 
-      const response15 = await fetch("https://rpc.s0.t.hmny.io", requestOptions("one1p2e0a0806jv8tqr37k7c8k67zgfjwtzpf9apv2"));
+      const response15 = await fetch("https://harmony-0-rpc.gateway.pokt.network", requestOptions("one1p2e0a0806jv8tqr37k7c8k67zgfjwtzpf9apv2"));
       const data15 = await response15.json();
-
+      console.log(data100.result['total-delegation']/10**18)
       this.validator = {
         oneHundred: {
           name: data100.result.validator.name,
-          totalDelegated: this.formatToMillion(data100.result['total-delegation']),
+          totalDelegated: this.prettify((data100.result['total-delegation']/10**18).toFixed(2)),
           apr: (data100.result.lifetime.apr * 100).toFixed(2)
         },
         fifteen: {
           name: data15.result.validator.name,
-          totalDelegated: this.formatToBillion(data15.result['total-delegation']),
+          totalDelegated: this.prettify((data15.result['total-delegation']/10**18).toFixed(2)),
           apr: (data15.result.lifetime.apr * 100).toFixed(2)
         }
       }

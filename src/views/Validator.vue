@@ -50,7 +50,7 @@
                 <p class="text-xs text-oswapBlue-light">Address:</p>
                 <p class="text-xs text-el">{{delegator['delegator-address']}}</p>
                 <p class="text-xs text-oswapBlue-light">Amount:</p>
-                <p class="text-xs text-el">{{delegator.amount}}</p>
+                <p class="text-xs text-el">{{prettify((delegator.amount/10**18).toFixed(2))}}</p>
                 <p class="text-xs text-oswapBlue-light">Weigth:</p>
                 <p class="text-xl text-el font-bold">{{toPercent(loadedData, delegator.amount).toFixed(4)}}%</p>
               </div>
@@ -153,12 +153,12 @@
         }),
       };
 
-      const response = await fetch("https://rpc.s0.t.hmny.io", requestOptions);
+      const response = await fetch("https://harmony-0-rpc.gateway.pokt.network", requestOptions);
       this.loadedData = await response.json();
 
       this.validator = {
         name: this.loadedData.result.validator.name,
-        totalDelegated: this.formatToMillion(this.loadedData.result['total-delegation']),
+         totalDelegated: this.prettify((this.loadedData.result['total-delegation']/10**18).toFixed(2)),
         delegators: this.loadedData.result.validator.delegations
                     .filter(d => d.amount > 0)
                     .sort(function (a, b) { return a.amount - b.amount })

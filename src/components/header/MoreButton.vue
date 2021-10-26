@@ -29,7 +29,7 @@
                     <p class="text-sm text-gray-500 dark:text-gray-300">Check token and pair stats</p>
                   </div>
                 </a>
-              </MenuItem>
+              </MenuItem><!--
               <MenuItem>
                 <router-link to="/migrate" class="flex items-center p-2 -m-3 transition group duration-150 ease-in-out rounded-lg rounded-b-lg hover:bg-gray-50 dark:hover:bg-oswapDark-gray focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                   <div class="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12">
@@ -42,7 +42,7 @@
                     <p class="text-sm text-gray-500 dark:text-gray-300">Migrate your oSWAP Token</p>
                   </div>
                 </router-link>
-              </MenuItem>
+              </MenuItem>-->
               <MenuItem>
                 <router-link to="/pairs" class="flex items-center p-2 -m-3 transition group duration-150 ease-in-out rounded-lg rounded-b-lg hover:bg-gray-50 dark:hover:bg-oswapDark-gray focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                   <div class="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12">
