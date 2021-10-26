@@ -58,12 +58,12 @@
       whichToken: String
     },
     computed: {
-      ...mapGetters('migrate', ['retrieveTokens']),
+      ...mapGetters('bridge', ['retrieveTokens']),
       ...mapGetters('wallet', ['getChainID']),
     },
     methods: {
-      ...mapActions('migrate', ['setToken', 'goTo']),
-      ...mapGetters('migrate', ['getToken']),
+      ...mapActions('bridge', ['setToken', 'goTo']),
+      ...mapGetters('bridge', ['getToken']),
       
       doCommand(e) {
         if (e.code == 'Escape') { this.goTo('swap'); }

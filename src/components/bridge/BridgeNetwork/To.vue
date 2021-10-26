@@ -31,10 +31,10 @@
       return {}
     },
     computed: {
-      ...mapGetters('migrate', ['getNetworks', 'getToNetwork', 'getFromNetwork']),
+      ...mapGetters('bridge', ['getNetworks', 'getToNetwork', 'getFromNetwork']),
     },
     methods: {
-      ...mapActions('migrate', ['setToNetwork']),
+      ...mapActions('bridge', ['setToNetwork']),
 
       selectNetwork(network) {
           this.setToNetwork(network)

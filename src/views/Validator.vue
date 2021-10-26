@@ -12,13 +12,14 @@
     <transition name="fade-in" appear>
       <div v-if="validator" class="flex flex-col w-full space-y-3 mt-8 text-gray-600 dark:text-gray-300">
         <div class="flex flex-col w-full space-y-4">
-          <div class="flex w-full h-auto ss:mt-3 mb-8 xs:mt-8">
-            <div class="flex w-full">
+          <div class="grid grid-cols-8 gap-3 w-full h-auto ss:mt-3 mb-8 xs:mt-8">
+            <div class="flex w-full col-span-2">
               <div class="flex flex-col">
         
                 <div class="flex space-x-2 items-center mb-6">
-                  <i class="las la-sitemap text-lg dark:text-oswapGreen"></i>
-                  <p class="text-oswapGreen-dark dark:text-oswapBlue-light text-sm uppercase">{{validator.name}}</p>
+                  <i class="las la-sitemap text-2xl dark:text-oswapGreen"></i>
+                  <p class="text-sm uppercase">{{validator.name}}</p>
+
                 </div>
 
                 <div class="flex flex-col space-y-2 text-gray-600 dark:text-gray-300 mb-3">
@@ -34,6 +35,11 @@
 
               </div>
             </div>
+            <!-- chart -->
+            <div class="flex col-span-6">
+              <apexchart type="line" class="w-full" height="250" :options="chart.chartOptions" :series="chart.series"></apexchart>
+            </div>
+
           </div>
 
           <Divider :title="validator.delegators.length + ' Delegators'" class="w-full text-sm py-3" />
@@ -57,6 +63,8 @@
 </template>
 
 <script>
+  import VueApexCharts from "vue3-apexcharts";
+
   import openswap from "@/shared/openswap.js";
   import { ethers } from 'ethers';
   import Divider from "@/components/Divider"
@@ -65,13 +73,70 @@
     name: 'Validator',
     mixins: [openswap],
     components: {
-      Divider
+      Divider,
+      apexchart: VueApexCharts
     },
     data() {
       return {
         address: this.$route.params.address,
         validator: null,
-        loadedData: null
+        loadedData: null,
+        chart: {
+          series: [{
+            name: "APR",
+            data: []
+          }],
+          chartOptions: {
+            chart: {
+              height: 250,
+              group: 'sparks',
+              type: 'line',
+              sparkline: {
+                enabled: true
+              },
+              dropShadow: {
+                enabled: true,
+                top: 2,
+                left: 3,
+                blur: 7,
+                opacity: 0.1,
+              },
+            },
+            stroke: {
+              curve: 'smooth'
+            },
+            markers: {
+              size: 0
+            },
+            colors: ['#18d5bb'],
+            dataLabels: {
+              enabled: false
+            },
+            grid: {
+              padding: {
+                top: 10,
+                bottom: 10,
+              }
+            },
+            xaxis: {
+              type: 'epochs',
+              categories: [],
+              crosshairs: {
+                width: 1
+              },
+            },
+            tooltip: {
+              theme: false,
+              custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+                return (
+                  '<div class="flex p-3 rounded-md bg-gray-100 dark:bg-slightDark text-xs text-gray-500 dark:text-gray-200 border-l border-oswapGreen">' +
+                  "<span>" + "Epoch " + w.globals.categoryLabels[dataPointIndex] + ": " + (series[seriesIndex][dataPointIndex] * 100 + "%") + "</span>" +
+                  "</div>"
+                );
+              }
+            }
+          }
+        }
       }
     },
     async mounted() {
@@ -98,8 +163,15 @@
                     .filter(d => d.amount > 0)
                     .sort(function (a, b) { return a.amount - b.amount })
                     .reverse(),
-        apr: (this.loadedData.result.lifetime.apr * 100).toFixed(2)
+        apr: (this.loadedData.result.lifetime.apr * 100).toFixed(2),
+        epochs: {
+          id: this.loadedData.result.lifetime['epoch-apr'].map(i => i.epoch),
+          apr: this.loadedData.result.lifetime['epoch-apr'].map(a => parseFloat(a.apr).toFixed(4))
+        }
       }
+
+      this.chart.series[0].data = this.validator.epochs.apr;
+      this.chart.chartOptions.xaxis.categories = this.validator.epochs.id;
     },
     methods: {
       prettify: function(number){
