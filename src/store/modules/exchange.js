@@ -53,14 +53,15 @@ export default {
   getters: {
     // Retrieves All tokens or by user input
     retrieveTokens: (state) => (search, chain) => {
+      if (search === '') { 
+        return state.allTokens 
+      }
       let filtered = [];
       let regex = RegExp(`\w?${search}`, 'i')
-  
       state.allTokens.forEach(network => {
         let tokenFound = {}
-        
         Object.entries(network.tokens[chain]).forEach(([k, v]) => {
-          if (v.Symbol.match(regex)) {
+          if (v.Symbol.match(regex) || v.name.match(regex) ) {
             tokenFound[k] = v
           }
         });
@@ -68,16 +69,11 @@ export default {
           filtered.push({
             name: network.name,
             icon: network.icon,
-            tokens: tokenFound
+            tokens: { [chain] : tokenFound }
           })
         }
       });
-
-      if (search !== '') { 
-        return filtered
-      } else { 
-        return state.allTokens 
-      }
+      return filtered
     },
 
     // It retrieves the exact token requested

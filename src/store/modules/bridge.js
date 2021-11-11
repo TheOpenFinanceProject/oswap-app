@@ -46,6 +46,9 @@ export default {
   getters: {
     // Retrieves All tokens or by user input
     retrieveTokens: (state) => (search, chain) => {
+      if (search === '') { 
+        return state.allTokens
+      }
       let filtered = [];
       let regex = RegExp(`\w?${search}`, 'i')
   
@@ -61,16 +64,12 @@ export default {
           filtered.push({
             name: network.name,
             icon: network.icon,
-            tokens: tokenFound
+            tokens: { [chain] : tokenFound }
           })
         }
       });
 
-      if (search !== '') { 
-        return filtered
-      } else { 
-        return state.allTokens 
-      }
+      return filtered
     },
 
     // It retrieves the exact token requested
